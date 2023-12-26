@@ -1,7 +1,7 @@
 import { ValidationResponse } from "../types";
 
-const MIN_LIMIT_RANGE = 30 * 60 * 1000; // min 30 minutes
-const MAX_LIMIT_RANGE = 24 * 60 * 60 * 1000; // max 24 hours
+const MIN_LIMIT_RANGE_MS = 30 * 60 * 1000; // min 30 minutes
+const MAX_LIMIT_RANGE_MS = 24 * 60 * 60 * 1000; // max 24 hours
 
 const parseDate = (date?: string | Date) => {
 	if (typeof date === 'string') {
@@ -29,8 +29,8 @@ export const durationValidation = (
 		return { error: true, msg: 'End date must be after Start date' };
 	if (
 		!(
-			timeDifference >= MIN_LIMIT_RANGE &&
-			timeDifference <= MAX_LIMIT_RANGE
+			timeDifference >= MIN_LIMIT_RANGE_MS &&
+			timeDifference <= MAX_LIMIT_RANGE_MS
 		)
 	) {
 		return {

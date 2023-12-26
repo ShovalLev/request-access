@@ -1,9 +1,11 @@
+import { FormikProps } from 'formik';
 import styles from './styles.module.css';
+import { MyFormValues } from '../../types';
+import { RequestAccessFormProps } from '../..';
 
-interface Props {
-	isSubmitting?: boolean;
-	onCancel: () => void;
-}
+interface Props
+	extends Pick<FormikProps<MyFormValues>, 'isSubmitting'>,
+		Pick<RequestAccessFormProps, 'onCancel'> {}
 
 export default function FormActions({ isSubmitting, onCancel }: Props) {
 	return (
