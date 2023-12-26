@@ -1,0 +1,13 @@
+.container {
+    margin: 30px 0px;
+}
+
+.radio {
+    margin-left: -20px;
+    cursor: pointer;
+}
+
+.description {
+    color: gray;
+    display: block;
+}

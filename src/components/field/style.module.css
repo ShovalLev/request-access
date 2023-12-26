@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.required {
+    color: red;
+}
+
+.error {
+    color: red;
+    font-size: 11px;
+}
