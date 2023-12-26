@@ -17,4 +17,4 @@ export type PartialRecord<K extends string | number | symbol, T> = {
     [P in K]?: T;
 };
 
-export type ValidationError = { error: boolean; msg?: string };
+export type ValidationResponse = { error: boolean; msg?: string };

@@ -36,7 +36,7 @@ export default function CustomRadioInput({
 			{description && (
 				<label className={styles.description}>{description}</label>
 			)}
-			<div>{children}</div>
+			{children}
 		</section>
 	);
 }

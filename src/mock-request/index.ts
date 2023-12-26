@@ -5,7 +5,7 @@ type MockResponse = {
 	};
 };
 
-export const mockRequest = (): Promise<MockResponse> => {
+export const mockRequest = (delay = 2000): Promise<MockResponse> => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			resolve({
@@ -14,6 +14,6 @@ export const mockRequest = (): Promise<MockResponse> => {
 					message: 'Request created',
 				},
 			});
-		}, 2000);
+		}, delay);
 	});
 };

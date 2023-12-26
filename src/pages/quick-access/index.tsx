@@ -4,7 +4,7 @@ import RequestAccessForm from '../../components/request-access-form';
 import styles from './styles.module.css';
 
 export default function QuickAccess() {
-	const modalRef = useRef<CustomModalMethods>();
+	const modalRef = useRef<CustomModalMethods>(null);
 
 	const openModal = () => {
 		modalRef.current?.open();

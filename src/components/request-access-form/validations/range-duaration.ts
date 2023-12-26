@@ -1,3 +1,5 @@
+import { ValidationResponse } from "../types";
+
 const MIN_LIMIT_RANGE = 30 * 60 * 1000; // min 30 minutes
 const MAX_LIMIT_RANGE = 24 * 60 * 60 * 1000; // max 24 hours
 
@@ -10,10 +12,10 @@ const parseDate = (date?: string | Date) => {
 	return undefined;
 };
 
-export const duarationValidation = (
+export const durationValidation = (
 	startDate?: string | Date,
 	endDate?: string | Date
-) => {
+): ValidationResponse => {
 	const startTime = parseDate(startDate);
 	const endTime = parseDate(endDate);
 

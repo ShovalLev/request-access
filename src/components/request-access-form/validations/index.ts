@@ -1,15 +1,20 @@
-import { ACCESS_TYPE_FIELDS_MAPPING } from "..";
-import { getUpdatedTimeframeDate } from "../../timeframe/helpers";
-import { AccessType, MyFormValues, PartialRecord, ValidationError } from "../types";
-import { duarationValidation } from "./range-duaration";
+import { ACCESS_TYPE_FIELDS_MAPPING } from '..';
+import { getUpdatedTimeframeDate } from '../../timeframe/helpers';
+import {
+	AccessType,
+	MyFormValues,
+	PartialRecord,
+	ValidationResponse,
+} from '../types';
+import { durationValidation } from './range-duaration';
 
 const INPUT_VALIDATION: PartialRecord<
 	keyof MyFormValues,
-	(values: MyFormValues) => ValidationError
+	(values: MyFormValues) => ValidationResponse
 > = {
 	timeframeAmount: (values) => {
 		const currentDate = new Date();
-		return duarationValidation(
+		return durationValidation(
 			currentDate,
 			getUpdatedTimeframeDate(
 				currentDate,
@@ -20,7 +25,7 @@ const INPUT_VALIDATION: PartialRecord<
 	},
 	timeframeType: (values) => {
 		const currentDate = new Date();
-		return duarationValidation(
+		return durationValidation(
 			currentDate,
 			getUpdatedTimeframeDate(
 				currentDate,
@@ -30,25 +35,28 @@ const INPUT_VALIDATION: PartialRecord<
 		);
 	},
 	startTime: (values) =>
-		duarationValidation(
+		durationValidation(
 			new Date(values.startTime),
 			new Date(values.endTime)
 		),
 	endTime: (values) =>
-		duarationValidation(
+		durationValidation(
 			new Date(values.startTime),
 			new Date(values.endTime)
 		),
 };
 
-const validateFormSection = (accessType: AccessType, values: MyFormValues) => {
+const validateFormSection = (
+	accessType: AccessType,
+	values: MyFormValues
+): PartialRecord<keyof MyFormValues, string> => {
 	let errors: PartialRecord<keyof MyFormValues, string> = {};
 	ACCESS_TYPE_FIELDS_MAPPING[accessType].forEach((field) => {
 		const validationFunction = INPUT_VALIDATION[field];
 		if (!values[field]) {
 			errors[field] = 'Required';
 		} else if (validationFunction) {
-			let error = validationFunction(values);
+			let error: ValidationResponse = validationFunction(values);
 			if (error?.error) {
 				errors[field] = error.msg;
 			}

@@ -16,9 +16,9 @@ export const ACCESS_TYPE_FIELDS_MAPPING: AccessTypeFieldsMappingType = {
 	['scheduled']: ['startTime', 'endTime', 'reason'],
 };
 
-type Props = {
+interface Props {
 	onCancel: () => void;
-};
+}
 
 export default function RequestAccessForm({ onCancel }: Props) {
 	const initialValues: MyFormValues = useMemo(() => {
@@ -53,14 +53,14 @@ export default function RequestAccessForm({ onCancel }: Props) {
 			const res = await mockRequest();
 			alert(`${res.data?.message}: ${JSON.stringify(reqObj, null, 2)}`);
 		} catch (err: unknown) {
-			alert(`Error!: ${JSON.stringify(reqObj, null, 2)}`);
+			console.error('Error in mockRequest:', err);
 		} finally {
 			setSubmitting(false);
 		}
 	};
 
 	return (
-		<div className={styles.conatiner}>
+		<div className={styles.container}>
 			<div className={styles.section}>
 				<h2>Request Access</h2>
 			</div>
