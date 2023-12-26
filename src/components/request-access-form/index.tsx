@@ -1,18 +1,15 @@
 import { KeyboardEvent, useMemo } from 'react';
 import { Formik, FormikHelpers } from 'formik';
 import { format } from 'date-fns';
-import { validateForm } from './helpers';
-import {
-	AccessTypeFieldsMappingType,
-	MyFormValues,
-	PartialRecord,
-} from './types';
+import { validateForm } from './validations';
+import { AccessTypeFieldsMappingType, MyFormValues } from './types';
 import styles from './styles.module.css';
 import RadioInput from '../radio-input';
 import Timeframe from '../timeframe';
 import FormField from '../field/field';
+import { mockRequest } from '../../mock-request';
 import { TimingTypes } from '../timeframe/types';
-import FormActions from './form-actions';
+import FormActions from './components/form-actions';
 
 export const ACCESS_TYPE_FIELDS_MAPPING: AccessTypeFieldsMappingType = {
 	['immediate']: ['timeframeAmount', 'timeframeType', 'reason'],
@@ -20,7 +17,6 @@ export const ACCESS_TYPE_FIELDS_MAPPING: AccessTypeFieldsMappingType = {
 };
 
 type Props = {
-	// onSubmit: (values: PartialRecord<keyof MyFormValues, unknown>) => void;
 	onCancel: () => void;
 };
 
@@ -41,20 +37,26 @@ export default function RequestAccessForm({ onCancel }: Props) {
 		return format(currentDate, "yyyy-MM-dd'T'HH:mm");
 	}, []);
 
-	const handleSubmit = (
+	const handleSubmit = async (
 		values: MyFormValues,
 		{ setSubmitting }: FormikHelpers<MyFormValues>
 	) => {
+		setSubmitting(true);
 		const accessTypeFields = ACCESS_TYPE_FIELDS_MAPPING[values.accessType];
 		const reqObj = Object.fromEntries(
 			Object.entries(values).filter(([key]) =>
 				accessTypeFields.includes(key as keyof MyFormValues)
 			)
 		);
-		setTimeout(() => {
-			alert(JSON.stringify(reqObj, null, 2));
+
+		try {
+			const res = await mockRequest();
+			alert(`${res.data?.message}: ${JSON.stringify(reqObj, null, 2)}`);
+		} catch (err: unknown) {
+			alert(`Error!: ${JSON.stringify(reqObj, null, 2)}`);
+		} finally {
 			setSubmitting(false);
-		}, 400);
+		}
 	};
 
 	return (

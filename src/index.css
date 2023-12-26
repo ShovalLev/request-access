@@ -16,3 +16,7 @@ code {
 input[type='radio'], button {
   cursor: pointer;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}
