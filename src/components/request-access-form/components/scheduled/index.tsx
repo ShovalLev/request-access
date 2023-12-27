@@ -1,10 +1,9 @@
-import { KeyboardEvent } from 'react';
 import { FormikProps } from 'formik';
-import styles from './styles.module.css';
 import FormField from '../../../field/field';
 import RadioInput from '../../../radio-input';
 import { MyFormValues } from '../../types';
 import { format } from 'date-fns';
+import DatetimePicker from '../../../datetime-picker';
 
 interface Props
 	extends Pick<
@@ -35,17 +34,12 @@ export default function ScheduledSection({
 				error={errors.startTime}
 				touched={touched.startTime}
 			>
-				<input
-					className={styles.datepicker}
-					type='datetime-local'
+				<DatetimePicker
 					name='startTime'
-					onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
-						e.preventDefault()
-					}
 					min={currentDate}
 					value={values.startTime}
-					onChange={handleChange}
-					onBlur={handleBlur}
+					handleChange={handleChange}
+					handleBlur={handleBlur}
 				/>
 			</FormField>
 			<FormField
@@ -53,17 +47,12 @@ export default function ScheduledSection({
 				error={errors.endTime}
 				touched={touched.endTime}
 			>
-				<input
-					className={styles.datepicker}
-					type='datetime-local'
+				<DatetimePicker
 					name='endTime'
-					onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
-						e.preventDefault()
-					}
-					min={currentDate}
+					min={values.startTime || currentDate}
 					value={values.endTime}
-					onChange={handleChange}
-					onBlur={handleBlur}
+					handleChange={handleChange}
+					handleBlur={handleBlur}
 				/>
 			</FormField>
 		</RadioInput>

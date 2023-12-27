@@ -6,7 +6,25 @@ import {
 	PartialRecord,
 	ValidationResponse,
 } from '../types';
-import { durationValidation } from './range-duaration';
+import { durationValidation, pastDatetimeValidation } from './range-duaration';
+
+/*
+    This function gets an Array of validation callbacks, and returns the first validation with an error.
+    It won't execute all callback, instead execute one by one untill getting an error. 
+*/
+type ValidationMethod = () => ValidationResponse;
+const combineValidations = (
+	...args: Array<ValidationMethod>
+): ValidationResponse => {
+	for (const validationCallback of args) {
+		const validationRes = validationCallback();
+		if (validationRes.error) {
+			return validationRes;
+		}
+	}
+
+	return { error: false };
+};
 
 const INPUT_VALIDATION: PartialRecord<
 	keyof MyFormValues,
@@ -35,14 +53,22 @@ const INPUT_VALIDATION: PartialRecord<
 		);
 	},
 	startTime: (values) =>
-		durationValidation(
-			new Date(values.startTime),
-			new Date(values.endTime)
+		combineValidations(
+			() => pastDatetimeValidation(values.startTime),
+			() =>
+				durationValidation(
+					new Date(values.startTime),
+					new Date(values.endTime)
+				)
 		),
 	endTime: (values) =>
-		durationValidation(
-			new Date(values.startTime),
-			new Date(values.endTime)
+		combineValidations(
+			() => pastDatetimeValidation(values.endTime),
+			() =>
+				durationValidation(
+					new Date(values.startTime),
+					new Date(values.endTime)
+				)
 		),
 };
 

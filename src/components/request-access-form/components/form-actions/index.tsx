@@ -15,7 +15,7 @@ export default function FormActions({ isSubmitting, onCancel }: Props) {
 				type='submit'
 				disabled={isSubmitting}
 			>
-				Submit
+				Request
 			</button>
 			<button className={styles.button} type='button' onClick={onCancel}>
 				Cancel

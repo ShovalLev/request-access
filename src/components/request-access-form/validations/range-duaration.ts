@@ -1,4 +1,4 @@
-import { ValidationResponse } from "../types";
+import { ValidationResponse } from '../types';
 
 const MIN_LIMIT_RANGE_MS = 30 * 60 * 1000; // min 30 minutes
 const MAX_LIMIT_RANGE_MS = 24 * 60 * 60 * 1000; // max 24 hours
@@ -35,8 +35,23 @@ export const durationValidation = (
 	) {
 		return {
 			error: true,
-			msg: 'min of 30 minutes and a max of 24 hours per a meeting',
+			msg: 'Meeting duration ranges from a min of 30 minutes to a max of 24 hours.',
 		};
+	}
+	return { error: false };
+};
+
+export const pastDatetimeValidation = (dt?: string | Date) => {
+	const dateTime = parseDate(dt);
+
+	if (!dateTime) {
+		return { error: false };
+	}
+
+	const timeDifference =  dateTime.getTime() - Date.now();
+
+	if (timeDifference < 0) {
+		return { error: true, msg: 'Datetime can not be in the past' };
 	}
 	return { error: false };
 };
