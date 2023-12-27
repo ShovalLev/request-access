@@ -1,74 +1,38 @@
 import { ACCESS_TYPE_FIELDS_MAPPING } from '..';
-import { getUpdatedTimeframeDate } from '../../timeframe/helpers';
 import {
 	AccessType,
 	MyFormValues,
 	PartialRecord,
 	ValidationResponse,
 } from '../types';
-import { durationValidation, pastDatetimeValidation } from './range-duaration';
-
-/*
-    This function gets an Array of validation callbacks, and returns the first validation with an error.
-    It won't execute all callback, instead execute one by one untill getting an error. 
-*/
-type ValidationMethod = () => ValidationResponse;
-const combineValidations = (
-	...args: Array<ValidationMethod>
-): ValidationResponse => {
-	for (const validationCallback of args) {
-		const validationRes = validationCallback();
-		if (validationRes.error) {
-			return validationRes;
-		}
-	}
-
-	return { error: false };
-};
+import {
+	combineValidations,
+	durationValidation,
+	pastDatetimeValidation,
+} from './helpers';
+import { timeframesValidation } from './validation-methods';
 
 const INPUT_VALIDATION: PartialRecord<
 	keyof MyFormValues,
 	(values: MyFormValues) => ValidationResponse
 > = {
-	timeframeAmount: (values) => {
-		const currentDate = new Date();
-		return durationValidation(
-			currentDate,
-			getUpdatedTimeframeDate(
-				currentDate,
-				values.timeframeAmount,
-				values.timeframeType
-			)
-		);
-	},
-	timeframeType: (values) => {
-		const currentDate = new Date();
-		return durationValidation(
-			currentDate,
-			getUpdatedTimeframeDate(
-				currentDate,
-				values.timeframeAmount,
-				values.timeframeType
-			)
-		);
-	},
+	timeframeAmount: timeframesValidation,
+	timeframeType: timeframesValidation,
 	startTime: (values) =>
 		combineValidations(
-			() => pastDatetimeValidation(values.startTime),
-			() =>
-				durationValidation(
-					new Date(values.startTime),
-					new Date(values.endTime)
-				)
+			pastDatetimeValidation(values.startTime),
+			durationValidation(
+				new Date(values.startTime),
+				new Date(values.endTime)
+			)
 		),
 	endTime: (values) =>
 		combineValidations(
-			() => pastDatetimeValidation(values.endTime),
-			() =>
-				durationValidation(
-					new Date(values.startTime),
-					new Date(values.endTime)
-				)
+			pastDatetimeValidation(values.endTime),
+			durationValidation(
+				new Date(values.startTime),
+				new Date(values.endTime)
+			)
 		),
 };
 

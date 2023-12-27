@@ -16,6 +16,7 @@ export const durationValidation = (
 	startDate?: string | Date,
 	endDate?: string | Date
 ): ValidationResponse => {
+	console.log('durationValidation');
 	const startTime = parseDate(startDate);
 	const endTime = parseDate(endDate);
 
@@ -48,10 +49,22 @@ export const pastDatetimeValidation = (dt?: string | Date) => {
 		return { error: false };
 	}
 
-	const timeDifference =  dateTime.getTime() - Date.now();
+	const timeDifference = dateTime.getTime() - Date.now();
 
 	if (timeDifference < 0) {
 		return { error: true, msg: 'Datetime can not be in the past' };
 	}
+	return { error: false };
+};
+
+export const combineValidations = (
+	...args: Array<ValidationResponse>
+): ValidationResponse => {
+	for (const validationRes of args) {
+		if (validationRes.error) {
+			return validationRes;
+		}
+	}
+
 	return { error: false };
 };
