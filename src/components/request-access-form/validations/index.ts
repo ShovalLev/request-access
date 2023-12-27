@@ -57,12 +57,10 @@ const validateFormSection = (
 };
 
 export const validateForm = (values: MyFormValues) => {
-	let errors: PartialRecord<keyof MyFormValues, string> = {};
 	const accessType = values.accessType;
 	if (!accessType) {
 		return;
 	}
 
-	errors = validateFormSection(accessType, values);
-	return errors;
+	return validateFormSection(accessType, values);
 };
