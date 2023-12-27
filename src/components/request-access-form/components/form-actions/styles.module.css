@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: flex-end;
     padding-top: 20px;
     gap: 20px;
 }

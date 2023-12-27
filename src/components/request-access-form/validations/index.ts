@@ -6,6 +6,7 @@ import {
 	ValidationResponse,
 } from '../types';
 import {
+	VALIDATION_ERROR_MESSAGES,
 	combineValidations,
 	durationValidation,
 	pastDatetimeValidation,
@@ -44,7 +45,7 @@ const validateFormSection = (
 	ACCESS_TYPE_FIELDS_MAPPING[accessType].forEach((field) => {
 		const validationFunction = INPUT_VALIDATION[field];
 		if (!values[field]) {
-			errors[field] = 'Required';
+			errors[field] = VALIDATION_ERROR_MESSAGES.REQUIRED;
 		} else if (validationFunction) {
 			let error: ValidationResponse = validationFunction(values);
 			if (error?.error) {

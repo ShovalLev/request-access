@@ -23,7 +23,7 @@ export default function Field({
 				{required && <span className={styles.required}>*</span>}
 			</span>
 			{children}
-			{error && touched && <span className={styles.error}>{error}</span>}
+			<div className={styles.placeholder}>{error && touched && <span className={styles.error}>{error}</span>}</div>
 		</div>
 	);
 }

@@ -13,8 +13,8 @@ import { mockRequest } from '../../mock-request';
 import { TimingTypes } from '../timeframe/types';
 
 export const ACCESS_TYPE_FIELDS_MAPPING: AccessTypeFieldsMappingType = {
-	['immediate']: ['timeframeAmount', 'timeframeType', 'reason'],
-	['scheduled']: ['startTime', 'endTime', 'reason'],
+	immediate: ['timeframeAmount', 'timeframeType', 'reason'],
+	scheduled: ['startTime', 'endTime', 'reason'],
 };
 
 export interface RequestAccessFormProps {
